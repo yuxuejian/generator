@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>index</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<h3 align="center">代码生成器</h3>
+<form id = "form1" onsubmit="return false" action="##" method="post" th:align="center">
+    <HR width="30%" color=#987cb9 SIZE=3>
+    <h4>数据库连接信息</h4>
+    <p>
+        数据库地址：<input type="text" name="hostPort"/>
+        数据库名称：<input type="text" name="database"/>
+    </p>
+    <p>
+        数据库账号：<input type="text" name="username"/>
+        数据库密码：<input type="password" name="password"/>
+    </p>
+    <HR width="30%" color=#987cb9 SIZE=3>
+    <h4>选择表：默认所有表</h4>
+    <p>表明：<input type="text" name="tables"/></p>
+    <HR width="30%" color=#987cb9 SIZE=3>
+    <h4>选择生产的文件</h4>
+    <p>
+        <input type="checkbox" name="category" value="1" />xml文件--
+        xml包名:<input type="text" name="xmlPackage" />
+    </p>
+    <p>
+        <input type="checkbox" name="category" value="2" />mapper接口--
+        mapper包名:<input type="text" name="mapperPackage" />
+    </p>
+    <p>
+        <input type="checkbox" name="category" value="3" />entity实体类--
+        entity包名:<input type="text" name="entityPackage" />
+    </p>
+    <p>
+        <input type="checkbox" name="category" value="4" />service接口--
+        service包名:<input type="text" name="servicePackage" />
+    </p>
+    <p>
+        <input type="checkbox" name="category" value="Entity" />controller类--
+        controller包名:<input type="text" name="controllerPackage" />
+    </p>
+    <HR width="30%" color=#987cb9 SIZE=3>
+    <p>
+        <input type="radio" name="isOverwrite" value="0" checked="checked"/>不覆盖原文件
+        <input type="radio" name="isOverwrite" value="1"/>覆盖原文件
+    </p>
+    <p><button onclick="login()">提交</button></p>
+</form>
+</body>
+<script>
+
+    function login() {
+        var data = $('#form1').serialize();
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/submit" ,//url
+            data: data,
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.success == 1) {
+                    alert("SUCCESS");
+                } else {
+                    alert(result.msg);
+                }
+                ;
+            },
+            error : function() {
+                //alert("异常！");
+            }
+        });
+    }
+</script>
+</html>
