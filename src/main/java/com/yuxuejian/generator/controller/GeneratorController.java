@@ -1,7 +1,7 @@
 package com.yuxuejian.generator.controller;
 
 import com.yuxuejian.generator.Service.GeneratorService;
-import com.yuxuejian.generator.dto.GeneratotDto;
+import com.yuxuejian.generator.dto.GeneratorDto;
 import com.yuxuejian.generator.dto.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,19 @@ public class GeneratorController {
 
     @PostMapping("/submit")
     @ResponseBody
-    public Result submit(GeneratotDto generatotDto) {
+    public Result submit(GeneratorDto generatotDto) {
         return generatorService.generator(generatotDto);
+    }
+
+    @PostMapping("/test")
+    @ResponseBody
+    public Result test(GeneratorDto generatorDto) {
+        return generatorService.test(generatorDto);
+    }
+
+    @PostMapping("/select")
+    @ResponseBody
+    public Result select(GeneratorDto generatorDto) {
+        return generatorService.select(generatorDto);
     }
 }

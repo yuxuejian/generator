@@ -15,10 +15,12 @@ public class JdbcUtil {
     private ResultSet rs;
 
     // 初始化
-    public JdbcUtil(String driver, String url, String username, String password) {
+    public JdbcUtil(String hostPort, String database, String username, String password) {
+        StringBuilder url = new StringBuilder("jdbc:mysql://");
+        url.append(hostPort).append("/").append(database).append("?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true&nullCatalogMeansCurrent=true");
         try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, username, password);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(url.toString(), username, password);
             System.out.println("数据库连接成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,11 +94,5 @@ public class JdbcUtil {
             }
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        boolean flag = isConnect("localhost:33061", "upms","root","123456");
-        System.out.println(flag);
-
     }
 }

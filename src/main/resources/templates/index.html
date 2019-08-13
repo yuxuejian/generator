@@ -3,12 +3,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>index</title>
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/ySelect.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 <body>
 <h3 align="center">代码生成器</h3>
 <form id = "form1" onsubmit="return false" action="##" method="post" th:align="center">
-    <HR width="30%" color=#987cb9 SIZE=3>
+    <HR width="40%" color=#987cb9 SIZE=3>
     <h4>数据库连接信息</h4>
     <p>
         数据库地址：<input type="text" name="hostPort"/>
@@ -18,10 +20,17 @@
         数据库账号：<input type="text" name="username"/>
         数据库密码：<input type="password" name="password"/>
     </p>
-    <HR width="30%" color=#987cb9 SIZE=3>
-    <h4>选择表：默认所有表</h4>
-    <p>表明：<input type="text" name="tables"/></p>
-    <HR width="30%" color=#987cb9 SIZE=3>
+    <p><button onclick="test()">连接测试</button></p>
+    <HR width="40%" color=#987cb9 SIZE=3>
+    <p>
+        <button onclick="select()">获取表</button>
+    </p>
+    <p>
+        <div id="tablesdiv">
+
+        </div>
+    </p>
+    <HR width="40%" color=#987cb9 SIZE=3>
     <h4>选择生产的文件</h4>
     <p>
         <input type="checkbox" name="category" value="1" />xml文件--
@@ -40,10 +49,22 @@
         service包名:<input type="text" name="servicePackage" />
     </p>
     <p>
-        <input type="checkbox" name="category" value="Entity" />controller类--
+        <input type="checkbox" name="category" value="5" />serviceImpl接口--
+        serviceImpl包名:<input type="text" name="serviceImplPackage" />
+    </p>
+    <p>
+        <input type="checkbox" name="category" value="6" />webService接口--
+        webService包名:<input type="text" name="webServicePackage" />
+    </p>
+    <p>
+        <input type="checkbox" name="category" value="7" />webServiceImpl接口--
+        webServiceImpl包名:<input type="text" name="webServiceImplPackage" />
+    </p>
+    <p>
+        <input type="checkbox" name="category" value="8" />controller类--
         controller包名:<input type="text" name="controllerPackage" />
     </p>
-    <HR width="30%" color=#987cb9 SIZE=3>
+    <HR width="40%" color=#987cb9 SIZE=3>
     <p>
         <input type="radio" name="isOverwrite" value="0" checked="checked"/>不覆盖原文件
         <input type="radio" name="isOverwrite" value="1"/>覆盖原文件
@@ -64,7 +85,7 @@
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.success == 1) {
-                    alert("SUCCESS");
+                    alert("成功");
                 } else {
                     alert(result.msg);
                 }
@@ -75,5 +96,60 @@
             }
         });
     }
+
+    function test() {
+        var data = $('#form1').serialize();
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/test" ,//url
+            data: data,
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.success == 1) {
+                    alert("成功");
+                } else {
+                    alert(result.msg);
+                }
+                ;
+            },
+            error : function() {
+                //alert("异常！");
+            }
+        });
+    }
+
+    function select() {
+        var data = $('#form1').serialize();
+        $.ajax({
+            url: "/select",      //后台返回json数据
+            type: "post",
+            dataType: "json",
+            data: data,
+            success: function (result) {
+                if (result.success == 1) {
+                    var data = result.data;
+                    var optionstring = "";
+                    // for (var i = 0; i < data.length; i++) {
+                    //     optionstring += "<option value=" + data[i].id + " >" + data[i].tableName + "</option>";
+                    //     $("#selectId").html("<option value='0' >请选择表名...</option> "+optionstring);
+                    // }
+
+                    for (var i = 0; i < data.length; i++) {
+                        optionstring += "<p><input type=\"checkbox\" name=\"tables\" value=" + data[i].tableName + " />" + data[i].tableName + "</p>";
+                        $("#tablesdiv").html(optionstring);
+                    }
+                } else {
+                    alert(result.msg);
+                }
+            },
+            error: function (msg) {
+                alert("出错了！");
+            }
+        });
+    };
+
+
 </script>
 </html>
