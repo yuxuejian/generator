@@ -17,22 +17,12 @@ public class GeneratorDto implements Serializable {
     private String password;
 
     private String[] tables;
+    
+    private String prefix;
 
     private String[] category;
 
-    private String xmlPackage;
-
-    private String entityPackage;
-
-    private String mapperPackage;
-
-    private String servicePackage;
-
-    private String serviceImplPackage;
-
-    private String webServicePackage;
-
-    private String webServiceImplPackage;
-
-    private String controllerPackage;
+    private String basePackage;
+    
+    private String projectName;
 }

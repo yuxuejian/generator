@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    
+    <context id="MysqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(")，在Mysql中不能这么写，所以还要将这两个默认值改为`  -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+
+        <!-- 为生成的Java模型类添加序列化接口，并生成serialVersionUID字段 -->
+        <plugin type="com.yuxuejian.generator.util.SerializablePlugin">
+            <property name="suppressJavaInterface" value="false"/>
+        </plugin>
+
+        <!-- Java模型生成equals和hashcode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
+        
+        <!-- 生成的代码去掉注释 -->
+        <commentGenerator type="com.yuxuejian.generator.util.MyCommentGenerator">
+            <property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接 -->
+        <jdbcConnection driverClass="${jdbcDriver}"
+                        connectionURL="${jdbcUrl}"
+                        userId="${jdbcUsername}"
+                        password="${jdbcPassword}" />
+                        
+		#if(${dao} == 1) 
+        	<!-- model生成 -->
+        	<javaModelGenerator targetPackage="${entityPackage}" targetProject="${targetProject}/src/main/java" />
+        	<!-- MapperXML生成 -->
+        	<sqlMapGenerator targetPackage="resources" targetProject="${targetProject}/src/main" />
+        	<!-- Mapper接口生成 -->
+        	<javaClientGenerator targetPackage="${mapperPackage}" targetProject="${targetProject}/src/main/java" type="XMLMAPPER" />
+		#end
+		
+        <!-- 需要映射的表 -->
+        #foreach($table in $tables)
+        	<table tableName="$!table.tableName" domainObjectName="$!table.entityName"></table>
+        #end
+        
+    </context>
+</generatorConfiguration>

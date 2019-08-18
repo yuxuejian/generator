@@ -1,0 +1,23 @@
+package ${dtoPackage};
+
+import lombok.Data;
+import java.io.Serializable;
+
+import ${entityPackage}.${model}
+
+@Data
+public class ${model}Dto extends ${model} implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private Integer page;
+
+    private Integer size;
+
+    private String sort;
+
+    private String order;
+
+    private String searchName;
+
+}

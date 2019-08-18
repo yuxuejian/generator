@@ -1,0 +1,95 @@
+package ${serviceImplPackage};
+
+import java.util.List;
+import ${dtoPackage}.${model}Dto;
+import ${entityPackage}.${model};
+import ${entityPackage}.${model}Example;
+import ${servicePackage}.${model}Service;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageHelper;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class ${model}ServiceImpl ${model}Service {
+
+    @Autowired
+    private ${model}Mapper ${model1}Mapper;
+
+    @Override
+	public int save(${model}Dto ${model1}Dto) {
+        ${model} ${model1} = new ${model}();
+        BeanUtils.copyProperties(${model1}Dto, ${model1});
+        ${model1}.setId();
+        return ${model1}Mapper.insert(${model1});
+    }
+
+    @Override
+	public int update(${model}Dto ${model1}Dto) {
+        ${model} ${model1} = ${model1}Mapper.selectByPrimaryKey(${model1}Dto.getId());
+        if (${model1} == null) {
+            return 2;
+        }
+        // TODO 只修改部分字段的需要自己手动set对应的属性
+        BeanUtils.copyProperties(${model1}Dto, ${model1});
+        return ${model1}Mapper.updateByPrimaryKey(${model1});
+    }
+
+    @Override
+	public int delete(${idType} id) 
+        return ${model1}Mapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+	public ${model} get(${idType} id) {
+        return ${model1}Mapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+	public List<${model}> getList(${model}Dto ${model1}Dto) {
+        ${model}Example ${model1}Example = new ${model}Example();
+		${model}Example.Criteria criteria = ${model}Example.createCriteria();
+        if (!StringUtils.isEmpty(${model1}Dto.getSearchName())) {
+            criteria
+
+            #foreach($column in $columns) 
+                #if (${column.dataType} == "String")
+                    .and${column.columnName}Like(${model1}Dto.getSearchName()+"%")
+                #end
+            #end
+        }
+        #foreach($column in $columns) 
+            #if (${column.dataType} != "String")
+            criteria.and${column.columnName}EqualTo(${model1}Dto.get${column.columnName}())
+            #end
+        #end
+        return ${model1}Mapper.selectByExample(${model1}Example);
+    }
+
+    @Override
+    public PageInfo<${model}> getListByPage(${model}Dto ${model1}Dto) {
+        ${model}Example ${model1}Example = new ${model}Example();
+		${model}Example.Criteria criteria = ${model}Example.createCriteria();
+        if (!StringUtils.isEmpty(${model1}Dto.getSearchName())) {
+            criteria
+            #foreach($column in $columns) 
+                #if (${column.dataType} == "String")
+                    .and${column.columnName}Like(${model1}Dto.getSearchName()+"%")
+                #end
+            #end
+        }
+        #foreach($column in $columns) 
+            #if (${column.dataType} != "String")
+            criteria.and${column.columnName}EqualTo(${model1}Dto.get${column.columnName}())
+            #end
+        #end
+        PageHelper.startPage(${model1}Dto.getPage(), ${model1}Dto.getSize());
+        if (!StringUtils.isEmpty(${model1}Dto.getSort())) {
+            PageHelper.orderBy(${model1}Dto.getSort() + " " + ${model1}Dto.getOrder());
+        }
+        return new PageInfo<${model}>(${model1}Mapper.selectByExample(${model1}Example));
+    }
+
+}

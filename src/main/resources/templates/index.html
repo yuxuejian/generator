@@ -30,45 +30,31 @@
 
         </div>
     </p>
+    <p>去掉前缀：<input type="text" name="prefix"/></p>
     <HR width="40%" color=#987cb9 SIZE=3>
     <h4>选择生产的文件</h4>
     <p>
-        <input type="checkbox" name="category" value="1" />xml文件--
-        xml包名:<input type="text" name="xmlPackage" />
+        <input type="checkbox" name="category" value="1" />dao文件--
     </p>
     <p>
-        <input type="checkbox" name="category" value="2" />mapper接口--
-        mapper包名:<input type="text" name="mapperPackage" />
+        <input type="checkbox" name="category" value="2" />service接口--
     </p>
     <p>
-        <input type="checkbox" name="category" value="3" />entity实体类--
-        entity包名:<input type="text" name="entityPackage" />
+        <input type="checkbox" name="category" value="3" />serviceImpl接口--
     </p>
     <p>
-        <input type="checkbox" name="category" value="4" />service接口--
-        service包名:<input type="text" name="servicePackage" />
+        <input type="checkbox" name="category" value="4" />webService接口--
     </p>
     <p>
-        <input type="checkbox" name="category" value="5" />serviceImpl接口--
-        serviceImpl包名:<input type="text" name="serviceImplPackage" />
+        <input type="checkbox" name="category" value="5" />webServiceImpl接口--
     </p>
     <p>
-        <input type="checkbox" name="category" value="6" />webService接口--
-        webService包名:<input type="text" name="webServicePackage" />
+        <input type="checkbox" name="category" value="6" />controller类--
     </p>
     <p>
-        <input type="checkbox" name="category" value="7" />webServiceImpl接口--
-        webServiceImpl包名:<input type="text" name="webServiceImplPackage" />
-    </p>
-    <p>
-        <input type="checkbox" name="category" value="8" />controller类--
-        controller包名:<input type="text" name="controllerPackage" />
+        基础包名：<input type="text" name="basePackage"/>
     </p>
     <HR width="40%" color=#987cb9 SIZE=3>
-    <p>
-        <input type="radio" name="isOverwrite" value="0" checked="checked"/>不覆盖原文件
-        <input type="radio" name="isOverwrite" value="1"/>覆盖原文件
-    </p>
     <p><button onclick="login()">提交</button></p>
 </form>
 </body>

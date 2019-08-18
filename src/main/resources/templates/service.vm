@@ -1,0 +1,16 @@
+package ${servicePackage};
+
+import java.util.List;
+import ${dtoPackage}.${model}Dto;
+import com.github.pagehelper.PageInfo;
+
+public interface ${model}Service {
+	
+	int save(${model}Dto ${model1}Dto);
+	int update(${model}Dto ${model1}Dto);
+	int delete(${idType} id);
+	${model} get(${idType} id);
+	List<${model}> getList(${model}Dto ${model1}Dto);
+    PageInfo<${model}> getListByPage(${model}Dto ${model1}Dto); 
+
+}
